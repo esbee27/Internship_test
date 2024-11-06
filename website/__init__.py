@@ -13,7 +13,7 @@ DB_NAME = "database.db"
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'esbee27'
-    app.config['MONGO_URI'] = 'mongodb://localhost{DB_NAME}'
+    app.config['MONGO_URI'] = 'mongodb://localhost/5000/{DB_NAME}'
     db.init_app(app)
 
     from .views import views
