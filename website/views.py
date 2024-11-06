@@ -45,4 +45,21 @@ def create_task():
     return jsonify(n_task), 201
 
 
+# Returns all users
+@views.route("/users", methods=["GET"])
+def get_users():
+    return jsonify(users)
 
+# Gets a user
+@views.route("/user", methods=["POST"])
+def create_user():
+    global task_id_counter
+    user = request.get_json()
+    if not user or "email" not in user or "username" not in user:
+        return jsonify({"error": "Invalid request"}), 400
+        n_task = {
+                "id": user["id"],
+                "username": user["username"],
+                "description": user["emsil"],
+                }
+    return jsonify(n_task), 201

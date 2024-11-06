@@ -1,19 +1,19 @@
 """A script that starts a Flask web application"""
 
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask_pymongo import PyMongo
 from os import path
 from flask_login import LoginManager
 
 """Naes the database"""
-db = SQLAlchemy()
+db = mongo(app)
 DB_NAME = "database.db"
 
 """Creates a flask app"""
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'esbee27'
-    app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
+    app.config['MONGO_URI'] = 'mongodb://localhost{DB_NAME}'
     db.init_app(app)
 
     from .views import views
@@ -22,7 +22,7 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
 
-    from .models import Student
+    from .models import User
 
     with app.app_context():
         db.create_all()
@@ -33,7 +33,7 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(id):
-        return Student.query.get(int(id))
+        return User.query.get(int(id))
     
     return app
 
